@@ -1,0 +1,160 @@
+﻿<Application x:Class="PhotoSorterWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PhotoSorterWPF"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="DataPart" TargetType="{x:Type ContentControl}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal" Margin="2">
+                            <TextBlock x:Name="Answer_Name" Text="{Binding Name}" />
+                            <TextBlock x:Name="Answer_Value" Text="{Binding Value}" MinWidth="64"
+                         TextAlignment="Center" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="MyDataTemplate">
+            <ContentControl x:Name="toChange" Height="Auto" Style="{StaticResource DataPart}" Content="{Binding}" />
+        </DataTemplate>
+        <Style x:Key="WithOut" TargetType="ListBoxItem">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="Border" SnapsToDevicePixels="True" BorderThickness="0,0,0,1"
+                    BorderBrush="#CCCCCCCC" Background="White">
+                            <ContentPresenter />
+                        </Border>
+                        <!--            <ControlTemplate.Triggers>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="#88888888" />
+              </Trigger>
+            </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataContainer" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource WithOut}" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ItemTemplate" Value="{StaticResource MyDataTemplate}" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <UniformGrid x:Name="DataGrid" Columns="1" IsItemsHost="True" VerticalAlignment="Top"
+                         Background="Transparent" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AllTestsPart" TargetType="{x:Type ContentControl}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border x:Name="stateBorrder" BorderThickness="1" BorderBrush="#AAAAAAAA">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel Orientation="Vertical" Margin="2" Grid.Column="0">
+                                    <TextBlock x:Name="r_Name" Text="{Binding f_name_old}" Foreground="#FF0000FF" FontStyle="Italic" />
+                                    <TextBlock x:Name="r_Value" Text="{Binding f_name_new}" />
+                                </WrapPanel>
+                                <TextBlock x:Name="ErrCount" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding f_photo_counter}" />
+                            </Grid>
+                        </Border>
+                        <!--<DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Work">
+                                <Setter Property="Background" Value="#550000FF" TargetName="stateBorrder" />
+                                --><!--Setter Property="Source" Value="Symbol-Refresh.png" TargetName="UserPic"/--><!--
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Error">
+                                <Setter Property="Background" Value="#55FF0000" TargetName="stateBorrder" />
+                                --><!--Setter Property="Source" Value="Symbol-Error.png" TargetName="UserPic"/--><!--
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Default">
+                                <Setter Property="Background" Value="#55AAAAAA" TargetName="stateBorrder" />
+                                <Setter Property="Text" Value="In the queue" TargetName="r_Value" />
+                                --><!--Setter Property="Source" Value="{x:Null}" TargetName="UserPic"/--><!--
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Success">
+                                <Setter Property="Background" Value="#5500FF00" TargetName="stateBorrder" />
+                                --><!--Setter Property="Source" Value="Symbol-Check.png" TargetName="UserPic"/--><!--
+                            </DataTrigger>
+                        </DataTemplate.Triggers>-->
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ImgPart" TargetType="{x:Type ContentControl}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border x:Name="stateBorrder" BorderThickness="1" BorderBrush="#AAAAAAAA">
+                            <Grid>
+                                <!--<Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel Orientation="Vertical" Margin="2" Grid.Column="0">
+                                    <TextBlock x:Name="r_Name" Text="{Binding f_name_old}" Foreground="#FF0000FF" FontStyle="Italic" />
+                                    <TextBlock x:Name="r_Value" Text="{Binding f_name_new}" />
+                                </WrapPanel>-->
+                                <Image Source="{Binding ImagePath}" Name="image" Stretch="Uniform" Height="240" Width="320"/>
+                            </Grid>
+                        </Border>
+                        <!--<DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Work">
+                                <Setter Property="Background" Value="#550000FF" TargetName="stateBorrder" />
+                                -->
+                        <!--Setter Property="Source" Value="Symbol-Refresh.png" TargetName="UserPic"/-->
+                        <!--
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Error">
+                                <Setter Property="Background" Value="#55FF0000" TargetName="stateBorrder" />
+                                -->
+                        <!--Setter Property="Source" Value="Symbol-Error.png" TargetName="UserPic"/-->
+                        <!--
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Default">
+                                <Setter Property="Background" Value="#55AAAAAA" TargetName="stateBorrder" />
+                                <Setter Property="Text" Value="In the queue" TargetName="r_Value" />
+                                -->
+                        <!--Setter Property="Source" Value="{x:Null}" TargetName="UserPic"/-->
+                        <!--
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding Path=NowState}" Value="Success">
+                                <Setter Property="Background" Value="#5500FF00" TargetName="stateBorrder" />
+                                -->
+                        <!--Setter Property="Source" Value="Symbol-Check.png" TargetName="UserPic"/-->
+                        <!--
+                            </DataTrigger>
+                        </DataTemplate.Triggers>-->
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="AllTestsStatus">
+            <ContentControl x:Name="AllTests" Height="Auto" Style="{StaticResource AllTestsPart}" Content="{Binding}" Width="Auto"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ImgTemplate">
+            <ContentControl x:Name="AllTests" Height="Auto" Style="{StaticResource ImgPart}" Content="{Binding}" Width="Auto"/>
+        </DataTemplate>
+    </Application.Resources>
+</Application>
