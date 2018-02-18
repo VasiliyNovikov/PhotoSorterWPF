@@ -27,17 +27,15 @@ namespace PhotoSorterWPF
         public string f_name_old { get; set; }
         public string f_name_new { get; set; }
         public int f_photo_counter { get; set; }
-        public DateTime minDate { get; }
-        public DateTime maxDate { get; }
         public List<string> allPhotoNames { get; }
-        private List<string> _allPhotoNames = new List<string>();
-
-        List<DateTime> allPhotoDates_in_f = new List<DateTime>();
 
         public WorkRules (string folder)
         {
+            allPhotoNames = new List<string>();
+            DateTime? minDate = null;
+            DateTime? maxDate = null;
             f_path = folder;
-            f_name_old = new System.IO.DirectoryInfo(folder).Name;
+            f_name_old = Path.GetFileName(folder);
 
             var f1 = Directory.GetFiles(folder, "*.jp*", SearchOption.TopDirectoryOnly);
             if (f1.Length != 0)
@@ -47,38 +45,35 @@ namespace PhotoSorterWPF
                 {
                     try
                     {
-                        FileStream f = File.Open(j_file, FileMode.Open);
-                        BitmapDecoder decoder = JpegBitmapDecoder.Create(f, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.Default);
-                        BitmapMetadata metadata = (BitmapMetadata)decoder.Frames[0].Metadata;
-                        var dt = DateTime.Parse(metadata.DateTaken);
-                        var date = dt.Date;
-                        if (!allPhotoDates_in_f.Contains(date))
-                            allPhotoDates_in_f.Add(date);
-                        f.Close();
-                        _allPhotoNames.Add(j_file);
+                        using (var f = File.OpenRead(j_file))
+                        {
+                            var decoder = BitmapDecoder.Create(f, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.Default);
+                            var metadata = (BitmapMetadata)decoder.Frames[0].Metadata;
+                            var dt = DateTime.Parse(metadata.DateTaken);
+                            var date = dt.Date;
+                            if (minDate == null || date < minDate)
+                                minDate = date;
+                            if (maxDate == null || date > maxDate)
+                                maxDate = date;
+                            allPhotoNames.Add(j_file);
+                        }
                     }
                     catch { }
                 }
-
-                allPhotoNames = _allPhotoNames;
             }
-            if (allPhotoDates_in_f.Count != 0)
+
+            if (allPhotoNames.Count != 0)
             {
-                minDate = allPhotoDates_in_f.Min();
-                maxDate = allPhotoDates_in_f.Max();
                 if (maxDate != minDate)
-                    f_name_new = (minDate.ToString("yyyy-MM-dd") + " - " + maxDate.ToString("yyyy-MM-dd") + "(" + f_name_old + ")");
+                    f_name_new = $"{minDate:yyyy-MM-dd} - {maxDate:yyyy-MM-dd} ({f_name_old})";
                 else
-                    f_name_new = (minDate.ToString("yyyy-MM-dd") + " - " + f_name_old );
+                    f_name_new = $"{minDate:yyyy-MM-dd} - {f_name_old}";
             }
-
         }
+
         public void ReportPropertyChanged(PropertyChangedEventArgs args)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, args);
-            }
+            this.PropertyChanged?.Invoke(this, args);
         }
 
         #region INotifyPropertyChanged Members
