@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:PhotoSorterWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <local:imgResizer x:Key="imgResizer" />
+
         <Style x:Key="DataPart" TargetType="{x:Type ContentControl}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="ContentTemplate">
@@ -113,7 +115,8 @@
                                     <TextBlock x:Name="r_Name" Text="{Binding f_name_old}" Foreground="#FF0000FF" FontStyle="Italic" />
                                     <TextBlock x:Name="r_Value" Text="{Binding f_name_new}" />
                                 </WrapPanel>-->
-                                <Image Source="{Binding ImagePath}" Name="image" Stretch="Uniform" Height="240" Width="320"/>
+                                <Image  Name="image" Stretch="Uniform" Source="{Binding ImagePath, Converter={StaticResource imgResizer}}"
+                                       RenderOptions.BitmapScalingMode="Fant" Height="240" Width="320"/><!--Source="{Binding Path=ImagePath, Converter={StaticResource imgResizer}}"-->
                             </Grid>
                         </Border>
                         <!--<DataTemplate.Triggers>
