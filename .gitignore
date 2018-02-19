@@ -5,3 +5,4 @@
 /.vs
 /PhotoSorterWPF/bin
 /PhotoSorterWPF/obj
+*.user
