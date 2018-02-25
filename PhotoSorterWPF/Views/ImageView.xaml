@@ -6,17 +6,24 @@
             xmlns:local="clr-namespace:PhotoSorterWPF"
             xmlns:views="clr-namespace:PhotoSorterWPF.Views" 
             xmlns:converters="clr-namespace:PhotoSorterWPF.Converters"
+            xmlns:commands="clr-namespace:PhotoSorterWPF.Commands"
             mc:Ignorable="d" 
             d:DesignWidth="320" d:DesignHeight="240">
     <FrameworkElement.Resources>
         <converters:ImageResizeConverter x:Key="ImgResizer"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </FrameworkElement.Resources>
-    <Border BorderThickness="1" BorderBrush="#AAAAAAAA">
+    <Border BorderThickness="1" BorderBrush="#AAAAAAAA"
+            commands:Mouse.MouseOverCommand="{Binding OnMouseOver}">
         <Grid>
             <Image Stretch="Uniform" Source="{Binding Path=Image, Converter={StaticResource ImgResizer}, IsAsync=True}"
                    RenderOptions.BitmapScalingMode="Fant"
                    Width="{x:Static local:Constants.ImagePreviewWidth}"
                    Height="{x:Static local:Constants.ImagePreviewHeight}"/>
+            <Grid Visibility="{Binding IsSelectorVisible, Converter={StaticResource BoolToVisibility}}">
+                <Rectangle Fill="LightGray" Opacity="0.5"/>
+                <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8"/>
+            </Grid>
         </Grid>
     </Border>
 </views:View>
