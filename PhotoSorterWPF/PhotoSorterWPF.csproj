@@ -55,10 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\Behavior.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\MouseOver.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converters\ImageResizeConverter.cs" />
     <Compile Include="Model\MainViewModel.cs" />
+    <Compile Include="Model\ObservableObject.cs" />
     <Compile Include="Utils\BitmapMetadataExtensions.cs" />
     <Compile Include="Model\ImageInfo.cs" />
     <Compile Include="Model\ImageViewModel.cs" />

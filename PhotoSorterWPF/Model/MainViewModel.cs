@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PhotoSorterWPF.Model
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ObservableObject
     {
         public ObservableCollection<ImageFolderViewModel> Folders { get; }
 
@@ -21,7 +21,7 @@ namespace PhotoSorterWPF.Model
                     return;
 
                 _selectedFolder = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFolder)));
+                ReportPropertyChanged();
 
                 if (value == null)
                     return;
@@ -35,8 +35,6 @@ namespace PhotoSorterWPF.Model
         public ObservableCollection<ImageViewModel> Images { get; }
 
         public DelegateCommand OnChooseFolder { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainViewModel()
         {
